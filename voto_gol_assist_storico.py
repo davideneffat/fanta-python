@@ -9,8 +9,8 @@ import time
 # ===================================================================== #
 
 # Genera dinamicamente l'elenco delle stagioni da analizzare
-stagioni = [f"{anno}-{str(anno+1)[-2:]}" for anno in range(2017, 2025)]
-# -> ['2017-18', '2018-19', ..., '2024-25']
+stagioni = [f"{anno}-{str(anno+1)[-2:]}" for anno in range(2015, 2025)]
+# -> ['2015-16', '2016-17', ..., '2024-25']
 
 all_players_data_multiseason = []
 base_url_template = "https://www.fantacalcio.it/voti-fantacalcio-serie-a/{stagione}/"
