@@ -65,12 +65,10 @@ try:
                 break
 
             for element in result_elements:
-                # --- Estrazione Squadre (invariata) ---
                 team_elements = element.select("p.participant-name")
                 home_team = team_elements[0].get_text(strip=True) if len(team_elements) > 0 else None
                 away_team = team_elements[1].get_text(strip=True) if len(team_elements) > 1 else None
 
-                # --- Estrazione Quote (invariata) ---
                 odds_elements = element.select("div[data-testid*='odd-container']")
                 quota_1 = odds_elements[0].get_text(strip=True) if len(odds_elements) > 0 else None
                 quota_x = odds_elements[1].get_text(strip=True) if len(odds_elements) > 1 else None
@@ -88,7 +86,6 @@ try:
                     print(f"    -> [St. {stagione_str} ] {home_team} vs {away_team} | Quote: 1={quota_1}, X={quota_x}, 2={quota_2}")
                     
 
-            # --- Logica di paginazione (invariata) ---
             try:
                 first_row_before_click = driver.find_element(By.CSS_SELECTOR, "div[data-testid='game-row']")
                 next_page_button = driver.find_element(By.XPATH, "//a[text()='Avanti']")

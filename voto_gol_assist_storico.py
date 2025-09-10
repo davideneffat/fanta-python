@@ -4,10 +4,6 @@ import pandas as pd
 import numpy as np
 import time
 
-# ===================================================================== #
-# PARTE 1: SCRAPING MULTI-STAGIONE (Esegui una volta per creare il file) #
-# ===================================================================== #
-
 # Genera dinamicamente l'elenco delle stagioni da analizzare
 stagioni = [f"{anno}-{str(anno+1)[-2:]}" for anno in range(2015, 2025)]
 # -> ['2015-16', '2016-17', ..., '2024-25']
@@ -20,7 +16,6 @@ for stagione in stagioni:
     base_url = base_url_template.format(stagione=stagione)
     print(f"--- Inizio scraping per la stagione: {stagione} ---")
 
-    # Loop interno per ogni giornata (come prima)
     for giornata in range(1, 39):
         url = f"{base_url}{giornata}"
         print(f"Scraping dati per Stagione {stagione}, Giornata {giornata}")
@@ -35,7 +30,6 @@ for stagione in stagioni:
 
         soup = BeautifulSoup(response.text, "html.parser")
         
-        # Modifica: non cerchiamo più per team, ma direttamente tutte le righe dei giocatori
         player_rows = soup.select("div.team-table-body tr")
 
         if not player_rows:
@@ -58,7 +52,7 @@ for stagione in stagioni:
             bonus_dict = {b["title"]: b["data-value"] for b in bonuses if b.has_attr("title")}
             
             player_info = {
-                "Stagione": stagione, # Aggiunta cruciale della stagione
+                "Stagione": stagione, 
                 "Giocatore": name,
                 "Giornata": giornata,
                 "Voto": voto,
@@ -70,7 +64,6 @@ for stagione in stagioni:
 # Crea il DataFrame completo da tutte le stagioni
 df_multiseason_raw = pd.DataFrame(all_players_data_multiseason)
 
-# Salva il file grezzo, così non devi ripetere lo scraping
 raw_filename = "fantavoto_multiseason_raw.csv"
 try:
     df_multiseason_raw.to_csv(raw_filename, index=False)
@@ -80,7 +73,7 @@ except Exception as e:
 
 
 # ====================================================================== #
-# PARTE 2: ELABORAZIONE DEI DATI (Esegui dopo aver creato il file sopra) #
+# PARTE 2: ELABORAZIONE DEI DATI     
 # ====================================================================== #
 
 try:
